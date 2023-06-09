@@ -15,5 +15,4 @@ werkzeug==1.0.1; python_version >= "2.7" and python_full_version < "3.0.0" or py
 
 torch==1.13.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 transformers==4.30.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
-scikit-learn==1.0.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 joblib==1.2.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
