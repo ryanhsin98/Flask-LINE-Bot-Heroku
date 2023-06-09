@@ -2,13 +2,11 @@ import pandas as pd
 import numpy as np
 
 import torch
-from transformers import BertTokenizer,BertModel
+from transformers import BertTokenizer,BertModel, BertForSequenceClassification,get_linear_schedule_with_warmup
 from numpy import dot
 from numpy.linalg import norm
-
 from joblib import load
 
-#%%
 class EmbeddingModel:
     def __init__(self, model_name):
         if model_name == 'bert':
