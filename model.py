@@ -9,9 +9,7 @@ from joblib import load
 
 class EmbeddingModel:
     def __init__(self, model_name):
-        if model_name == 'bert':
-            output_dir = './model_save_bert/'
-        elif model_name == 'roberta':
+        if model_name == 'roberta':
             output_dir = './model_save_roberta/'
             self.df = pd.read_csv('finetuned.csv')
             self.all_embeddings = np.load('finetuned_roberta_reduced.npy')
