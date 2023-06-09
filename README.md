@@ -2,7 +2,7 @@
 
 ### 一. 自動部署 Heroku
 
-<a href="https://heroku.com/deploy?template=https://github.com/ryanhsin98/Flask-LINE-Bot-Heroku/tree/main">
+<a href="https://heroku.com/deploy?template=https://github.com/ryanhsin98/Flask-LINE-Bot-Heroku/tree/master">
   <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
 </a>
 
