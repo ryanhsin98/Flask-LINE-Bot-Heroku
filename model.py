@@ -1,14 +1,12 @@
-import os
 import pandas as pd
 import numpy as np
 
 import torch
-from transformers import BertTokenizer,BertModel,BertForSequenceClassification,get_linear_schedule_with_warmup
+from transformers import BertTokenizer,BertModel
 from numpy import dot
 from numpy.linalg import norm
 
-from joblib import dump, load
-from sklearn.decomposition import PCA
+from joblib import load
 
 #%%
 class EmbeddingModel:
