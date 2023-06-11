@@ -18,16 +18,16 @@ def process_user_input(user_input):
     
     #處理判決結果
     law = []
-    law.append(f"判決適用第{qresult[0][3]}項")
-    law.append(f"第{qresult[0][4]}款") if qresult[0][4] != 0 else None
-    law.append("判決結果為成功") if qresult[0][5] == 1 else qresult.append("判決結果為失敗")
+    law.append(f"判決適用第{qresult[3]}項")
+    law.append(f"第{qresult[4]}款") if qresult[4] != 0 else None
+    law.append("判決結果為成功") if qresult[5] == 1 else law.append("判決結果為失敗")
     
     string_result = f"""
-                    1. JID: {result[1]}
+                    1. JID: {qresult[0]}
 
-                    2. 原告主張摘要: {qresult1[0][1]}
+                    2. 原告主張摘要: {qresult[1]}
                     
-                    3. 判決理由摘要: {qresult1[0][2]}
+                    3. 判決理由摘要: {qresult[2]}
                     
                     4. 判決結果: {", ".join(law)}
                     """
