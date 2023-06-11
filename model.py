@@ -11,18 +11,16 @@ import sqlite3
 conn = sqlite3.connect('example.db')
 cursor = conn.cursor()
 
-#處理判決結果
-def law_result(result):
-    law = []
-    law.append(f"判決適用第{result[0][3]}項")
-    law.append(f"第{result[0][4]}款") if result[0][4] != 0 else None
-    law.append("判決結果為成功") if result[0][5] == 1 else result.append("判決結果為失敗")
-    return ", ".join(law)
-
 # 執行搜尋
 def process_user_input(user_input):
     cursor.execute("SELECT * FROM law_table WHERE JID = '{user_input}'")
     qresult = cursor.fetchone()  # 只取回一筆結果
+    
+    #處理判決結果
+    law = []
+    law.append(f"判決適用第{qresult[0][3]}項")
+    law.append(f"第{qresult[0][4]}款") if qresult[0][4] != 0 else None
+    law.append("判決結果為成功") if qresult[0][5] == 1 else qresult.append("判決結果為失敗")
     
     string_result = f"""
                     1. JID: {result[1]}
@@ -31,7 +29,7 @@ def process_user_input(user_input):
                     
                     3. 判決理由摘要: {qresult1[0][2]}
                     
-                    4. 判決結果: {law_result(qresult1)}
+                    4. 判決結果: {", ".join(law)}
                     """
 
     return string_result
