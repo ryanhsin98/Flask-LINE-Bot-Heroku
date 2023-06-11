@@ -1,7 +1,10 @@
 import os
 from datetime import datetime
 
-from flask import Flask, abort, request
+from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 # https://github.com/line/line-bot-sdk-python
 from linebot import LineBotApi, WebhookHandler
@@ -11,23 +14,24 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateS
 #引入model.py
 from model import process_user_input
 
-app = Flask(__name__)
 
-line_bot_api = LineBotApi(os.environ.get("CHANNEL_ACCESS_TOKEN"))
-parser  = WebhookHandler(os.environ.get("CHANNEL_SECRET"))
+line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
+parser  = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
 
 @csrf_exempt
 def callback(request):
  
     if request.method == 'POST':
-        signature = request.META['X-Line-Signature']
+        signature = request.META['HTTP_X_LINE_SIGNATURE']
         body = request.body.decode('utf-8')
  
         try:
             events = parser.parse(body, signature)  # 傳入的事件
         except InvalidSignatureError:
-            return abort(400)
+            return HttpResponseForbidden()
+        except LineBotApiError:
+            return HttpResponseBadRequest()
 
  
         for event in events:
@@ -66,3 +70,8 @@ def callback(request):
                         event.reply_token,
                         TextSendMessage(text=result)
                     )
+  
+          return HttpResponse()
+  
+    else:
+        return HttpResponseBadRequest()
