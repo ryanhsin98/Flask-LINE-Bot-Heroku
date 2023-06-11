@@ -37,8 +37,17 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     get_message = event.message.text #獲取使用者輸入的文字
+   line_bot_api.reply_message( 
+    event.reply_token,
+    TextSendMessage(text = "有成功收到")
+    )
 
     if get_message.find('T') == -1:
+       line_bot_api.reply_message( 
+            event.reply_token,
+            TextSendMessage(text = "有成功判別")
+        )
+            
         line_bot_api.reply_message(  # 回復傳入的訊息文字
             event.reply_token,
             TemplateSendMessage(
@@ -67,7 +76,7 @@ def handle_message(event):
         reply = process_user_input(get_message)
 
         # Send To Line
-        line_bot_api.reply_message(  # 回應前五間最高人氣且營業中的餐廳訊息文字
+        line_bot_api.reply_message(  
             event.reply_token,
             TextSendMessage(text = f"{reply}")
         )
