@@ -8,7 +8,7 @@ Created on Sun Jun  4 18:42:40 2023
 import sqlite3
 
 # 建立資料庫連線
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('law_database.db')
 cursor = conn.cursor()
 
 # 執行搜尋
