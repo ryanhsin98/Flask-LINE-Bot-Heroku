@@ -6,11 +6,10 @@ from flask import Flask, abort, request
 # https://github.com/line/line-bot-sdk-python
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,  ButtonsTemplate, MessageTemplateAction
 
 #引入model.py
-from model import EmbeddingModel
-roberta = EmbeddingModel('roberta')
+import model
 
 app = Flask(__name__)
 
@@ -39,9 +38,36 @@ def callback():
 def handle_message(event):
     get_message = event.message.text #獲取使用者輸入的文字
 
-    #calculate
-    result = roberta.topk(get_message)
-    
-    # Send To Line
-    reply = TextSendMessage(text=f"{result}")
-    line_bot_api.reply_message(event.reply_token, reply)
+    if get_message.find('T') == -1:
+        line_bot_api.reply_message(  # 回復傳入的訊息文字
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='相似判決結果出爐',
+                    text='請選擇想看的',
+                    actions=[
+                        MessageTemplateAction(
+                            label='TCDV,109,婚,363,20200827,1',
+                            text='TCDV,109,婚,363,20200827,1'
+                        ),
+                        MessageTemplateAction(
+                            label='TPDV,107,婚,347,20190321,1',
+                            text='TPDV,107,婚,347,20190321,1'
+                        ),
+                        MessageTemplateAction(
+                            label='TPDV,108,婚,338,20200602,1',
+                            text='TPDV,108,婚,338,20200602,1'
+                        )
+                    ]
+                )
+            )
+        )
+    else:
+        reply = model.process_user_input(get_message)
+
+        # Send To Line
+        line_bot_api.reply_message(  # 回應前五間最高人氣且營業中的餐廳訊息文字
+            event.reply_token,
+            TextSendMessage(text = reply)
+        )
