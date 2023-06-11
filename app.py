@@ -38,7 +38,7 @@ def callback():
 def handle_message(event):
     get_message = event.message.text #獲取使用者輸入的文字
 
-    if get_message.find('T') == -1:           
+    if get_message == "我想離婚了，老公在大陸遲遲不回家":           
         line_bot_api.reply_message(  # 回復傳入的訊息文字
             event.reply_token,
             TemplateSendMessage(
